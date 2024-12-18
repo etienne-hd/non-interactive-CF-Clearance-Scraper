@@ -1,2 +1,5 @@
 playwright==1.49.1
 fake_useragent==2.0.3
+flask==3.0.3
+python-dotenv==1.0.1
+gunicorn==20.1.0

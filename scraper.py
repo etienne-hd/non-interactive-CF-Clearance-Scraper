@@ -79,7 +79,7 @@ class CloudflareSolver:
         )
 
 def solve(
-    url: str,
+    url: str = None,
     user_agent: str = None,
     timeout: float = 20,
     proxy: str = None,
@@ -99,6 +99,9 @@ def solve(
     """
 
     try:
+        if url == None:
+            return {"code": 400, "message": "You must at least specify an url", "data": None}
+
         if user_agent is None:
             ua = UserAgent()
             user_agent = ua.random  # Generate a random user agent
