@@ -1,4 +1,4 @@
-from playwright.sync_api import sync_playwright, ProxySettings
+from patchright.sync_api import sync_playwright, ProxySettings
 from typing import Any, Optional, Dict
 from fake_useragent import UserAgent
 import time
@@ -13,13 +13,6 @@ class CloudflareSolver:
         user_agent: str,
         proxy: str
     ) -> None:
-
-        # Windows can't retreive cf clearance with an headless browser
-        if platform.system() == "Windows":
-            logger.debug(f"Windows detected! Windows don't support headless browser.")
-            headless = False
-        else:
-            headless = True
         
         if proxy:
             logger.debug(f"Proxy input -> {proxy}")
@@ -32,7 +25,7 @@ class CloudflareSolver:
 
         logger.debug(f"Starting browser...")
         browser = self._playwright.chromium.launch(
-            proxy=proxy, headless=headless
+            proxy=proxy, headless=False, args=["--no-sandbox", "--disable-setuid-sandbox"]
         )
         logger.debug(f"Browser started successfully!")
 

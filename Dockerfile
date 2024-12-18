@@ -21,6 +21,10 @@ RUN apt-get update && \
     libxkbcommon0 \
     libasound2 \
     libxfixes3 \
+    libcups2 \
+    libpango-1.0-0 \
+    libcairo2 \
+    xvfb \
     && rm -rf /var/lib/apt/lists/*  # Clean up package lists to reduce image size
 
 # Set environment variables for server configuration
@@ -39,10 +43,11 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Chromium for Playwright
-RUN python -m playwright install chromium
+RUN python -m patchright install chromium
 
 # Expose the server port to allow access from outside the container
 EXPOSE $SERVER_PORT
 
 # Run the application using Gunicorn with specified number of workers
-CMD ["sh", "-c", "gunicorn -b $SERVER_HOST:$SERVER_PORT --workers $SERVER_WORKER server:app"]
+CMD ["sh", "-c", "xvfb-run --server-args='-screen 0 1920x1080x24' gunicorn -b $SERVER_HOST:$SERVER_PORT --workers $SERVER_WORKER server:app"]
+

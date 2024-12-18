@@ -11,7 +11,7 @@ logger.setLevel(logging.DEBUG if os.getenv("DEBUG").strip().lower() == "true" el
 REQUIRED_TOKEN = os.getenv("TOKEN")
 
 @app.route('/', methods=['POST', 'GET'])
-def non_interaction_cf_clearance():
+def non_interactive_cf_clearance():
     """
     This route is used to retreive cf clearance with different parameter
     """
